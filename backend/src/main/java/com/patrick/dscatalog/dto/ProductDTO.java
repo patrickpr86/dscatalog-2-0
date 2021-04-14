@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import com.patrick.dscatalog.entities.Category;
@@ -25,6 +26,8 @@ public class ProductDTO implements Serializable {
 	
 	@NotBlank(message = "Campo requerido")
 	private String description;
+	
+	@Positive(message = "Preço deve ter um valor positivo")
 	private Double price;
 	private String imgUrl;	
 	
