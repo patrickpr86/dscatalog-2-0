@@ -11,24 +11,22 @@ import com.patrick.dscatalog.entities.User;
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 	
-	@NotBlank(message = "Campo obrigatório!")
+	@NotBlank(message = "Campo obrigatório")
 	private String firstName;
 	private String lastName;
-	
-	@Email(message = "Email não é valido!")
+
+	@Email(message = "Favor entrar um email válido")
 	private String email;
 	
-	private Set<RoleDTO> rolesDTO = new HashSet<>();
-
+	Set<RoleDTO> roles = new HashSet<>();
+	
 	public UserDTO() {
-		
 	}
 
 	public UserDTO(Long id, String firstName, String lastName, String email) {
-		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -40,11 +38,8 @@ public class UserDTO implements Serializable {
 		firstName = entity.getFirstName();
 		lastName = entity.getLastName();
 		email = entity.getEmail();
-		entity.getRoles().forEach(role -> this.rolesDTO.add(new RoleDTO(role)));
-		
+		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
 	}
-	
-	
 
 	public Long getId() {
 		return id;
@@ -78,9 +73,7 @@ public class UserDTO implements Serializable {
 		this.email = email;
 	}
 
-	public Set<RoleDTO> getRolesDTO() {
-		return rolesDTO;
+	public Set<RoleDTO> getRoles() {
+		return roles;
 	}
-	
-	
 }

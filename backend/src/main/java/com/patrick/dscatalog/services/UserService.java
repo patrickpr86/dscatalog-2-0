@@ -28,10 +28,10 @@ public class UserService {
 
 	@Autowired
 	private UserRepository productRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -53,16 +53,13 @@ public class UserService {
 	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
-		entity.setPassword(passwordEncoder.encode(dto.getPassword()));		
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity = productRepository.save(entity);
 		return new UserDTO(entity);
 	}
 
-	
-
 	@Transactional
 	public UserDTO update(Long id, UserDTO dto) {
-
 		try {
 			User entity = productRepository.getOne(id);
 			copyDtoToEntity(dto, entity);
@@ -74,33 +71,29 @@ public class UserService {
 
 	}
 
-	public void delete(Long id) {	
+	public void delete(Long id) {
 		try {
 			productRepository.deleteById(id);
-		}
-		catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
-		}
-		catch (DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
-		
+
 	}
-	
+
 	private void copyDtoToEntity(UserDTO dto, User entity) {
-		
+
 		entity.setFirstName(dto.getFirstName());
 		entity.setLastName(dto.getLastName());
 		entity.setEmail(dto.getEmail());
-		
-		
+
 		entity.getRoles().clear();
-		for (RoleDTO roleDTO : dto.getRolesDTO()) {
+		for (RoleDTO roleDTO : dto.getRoles()) {
 			Role role = roleRepository.getOne(roleDTO.getId());
 			entity.getRoles().add(role);
 		}
-		
+
 	}
 
-	
 }
