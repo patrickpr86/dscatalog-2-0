@@ -32,7 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-.DS_Stire
+.DS_Store
 .metadata
 .mvn
 
