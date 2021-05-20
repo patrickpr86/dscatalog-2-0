@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.patrick.dscatalog.dto.ProductDTO;
+import com.patrick.dscatalog.dto.UriDTO;
 import com.patrick.dscatalog.services.ProductService;
 
 @RestController
@@ -58,6 +60,12 @@ public class ProductResource {
 		dto = productService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
+	}
+	
+	@PostMapping(value = "/upload-image")
+	public ResponseEntity<UriDTO> uploadFile(@RequestParam("file") MultipartFile file) {
+		UriDTO dto = productService.uploadFile(file);		
+		return ResponseEntity.ok().body(dto);
 	}
 
 	@PutMapping(value = "/{id}")
